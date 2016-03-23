@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>leo</title>
+</head>
+<body>
+    姓名<input type="text" id="username"><br>
+    年龄<input type="text" id="userage"><br>
+    <input type="button" id="submit" value="注册">
+    <table>
+        <tbody>
+        <tr>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+    document.querySelector('#submit').addEventListener('click',function(){
+        var xml=new XMLHttpRequest();
+        xml.open('POST','/reg',true);
+        xml.responseType='json';
+        xml.onreadystatechange=function(){
+            if(xml.readyState==4 && /2\d{2}/.test(xml.status)){
+                var tbody=document.querySelector('#tbody');
+                tbody.innerHTML="";
+                xml.response.forEach(function(item){
+                    var tr=document.createElement('tr');
+                    var tdname=document.createElement('td');
+                    var tdage=document.createElement('td');
+                    tdname.innerText=item.name;
+                    tdage.innerText=item.age;
+                    tr.appendChild(tdname);
+                    tr.appendChild(tdage);
+                    tbody.appendChild(tr);
+                })
+            }
+        }
+        var user={
+            name:document.querySelector('#username').value,
+            age:document.querySelector('#userage').value,
+        }
+        xml.send(JSON.stringify(user));
+    })
+</script>

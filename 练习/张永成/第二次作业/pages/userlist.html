@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../lib/crud.js"></script>
+</head>
+<style>
+    html,body{
+        height:100%;
+    }
+
+    body {
+        background:url(images/bg.jpg) no-repeat;
+        background-size:cover;
+    }
+
+    h3{
+        margin-top:0;
+        padding-top:20px;
+    }
+
+    .opetors {
+        text-align:right;
+        padding-right:50px;
+    }
+
+    .content {
+        width:1000px;
+        margin:0 auto;
+        text-align:center;
+    }
+
+    #tips_alert {
+        display:none;
+    }
+
+    table tr.success td {
+        vertical-align: middle;
+    }
+
+    .text-align {
+        text-align:center;
+    }
+
+</style>
+<body>
+    <div class="content">
+        <h3>用户列表</h3>
+        <p class="opetors">
+            <button class="btn btn-primary" id="query">查询</button>
+            <button class="btn btn-info" id="reg">注册</button>
+            <button class="btn btn-danger" id="delete">删除</button>
+            <button class="btn btn-primary" id="modify">修改</button>
+        </p>
+        <form id="lists">
+
+        </form>
+        <table id="userlist" class="table table-striped">
+            <tr class="info">
+                <td><input type="checkbox" id="checkall"/></td>
+                <td>用户名</td>
+                <td>密码</td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal fade" id="reg_modal">
+        <div class="modal-dialog" style="padding-top:200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">注册用户</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" role="alert" id="tips_alert">
+                        <p id="tips"></p>
+                    </div>
+                    <p>
+                        用户名:<input id="username" type="text" name="username" class="form-control"/>
+                        密码:<input id="password" type="text" name="password" class="form-control"/>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="save">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="tip_modal">
+        <div class="modal-dialog modal-sm" style="padding-top:200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-align" >确定要删除吗?</h4>
+                </div>
+                <div class="modal-footer text-align">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" style="margin-left:80px;" id="del">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</body>
+</html>

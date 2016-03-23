@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="all.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="error2"></div>
+<div class="outer2">
+    <div class="row2">
+        <label>用户名：</label><input type="text" id="username">
+        <label>密码：</label><input type="text" id="password">
+        <input type="button" value="注册" id="register" class="button3">
+        <input type="button" value="去登录！" id="gologin" class="button4">
+    </div>
+</div>
+<img src="bg.jpg" class="bg">
+<script>
+    var goLogin=document.querySelector('#gologin');
+    var register=document.querySelector('#register');
+    var username=document.querySelector('#username');
+    var password=document.querySelector('#password');
+    var bg=document.querySelector('.bg');
+    var error2=document.querySelector('.error2');
+    var message='';
+    register.addEventListener('click',function(){
+        message='';
+        var obj={}
+        obj.username=username.value;
+        obj.password=password.value;
+        var xhr=new XMLHttpRequest();
+        xhr.open('POST','/register',true);
+        xhr.setRequestHeader("content-type","application/json")
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4&&xhr.status==200){
+                message=xhr.response;
+                //console.log(message)
+            }
+        }
+        console.log(obj)
+        xhr.send(JSON.stringify(obj));
+        showErrow()
+    },false)
+    goLogin.addEventListener('click',function(){
+        window.location.href='/login.html'
+    },false)
+
+    bg.width=document.documentElement.clientWidth||document.body.clientWidth;
+    bg.height=document.documentElement.clientHeight||document.body.clientHeight;
+    window.onresize=function(){
+        bg.width=document.documentElement.clientWidth||document.body.clientWidth;
+        bg.height=document.documentElement.clientHeight||document.body.clientHeight;
+    }
+    function showErrow(){
+        var timer
+        var timer1=window.setTimeout(function(){
+            error2.style.display='block';
+            error2.innerHTML=message;
+            timer=window.setTimeout(function(){
+                error2.style.display='none';
+                clearTimeout(timer);
+                timer=null
+            },2000);
+            clearTimeout(timer1);
+            timer1=null;
+        },500)
+    }
+</script>
+</body>
+</html>

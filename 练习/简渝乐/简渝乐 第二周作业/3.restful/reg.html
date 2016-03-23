@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+姓名
+<input type="text" name="name">
+年龄
+<input type="text" name="age">
+<input type="button" value="注册" onclick="reg()">
+<input type="button" value="查询" onclick="query()">
+<div id="tip"></div>
+<table>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    var tip = document.querySelector("#tip");
+    function reg(){
+        var user={
+            name:"",
+            age:""
+        }
+        var xhr=new XMLHttpRequest();
+        xhr.open('post','/reg',true);
+        xhr.responseType = 'json';
+        xhr.onreadystatechange = function (data){
+            if(xhr.readyState == 4 && xhr.status ==200){
+                if(xhr.response == "1"){
+                    var user = xhr.response;
+                    tip.innerHTML="您注册的数据已经成功提交到后台（注册成功！）";
+
+                }else{
+                    tip.innerHTML="您提交的数据为空,请重新填写";
+                }
+            }
+        }
+        user.name = document.querySelector("input[name='name']").value;
+        user.age = document.querySelector("input[name='age']").value;
+        xhr.send(JSON.stringify(user));
+    }
+    function query(){
+        var xhr=new XMLHttpRequest();
+        xhr.open('get','/reg',true);
+        xhr.responseType = 'json';
+        xhr.onreadystatechange = function (data){
+            if(xhr.readyState == 4 && xhr.status ==200){
+                var user = xhr.response;
+                console.log(user);
+                if(user == ""){
+                    tip.innerHTML='还没有用户注册哦，赶紧注册第一个用户吧！';
+                }else{
+                    tip.innerHTML="您所查询的结果如下："
+                    var tbody = document.querySelector("table tbody");
+                    tbody.innerHTML = "";
+                    user.forEach(function(ite){
+                        var tr = document.createElement('tr');
+                        var td1 = document.createElement('td');
+                        td1.innerHTML = ite.name;
+                        var td2 = document.createElement('td');
+                        td2.innerHTML = ite.age;
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tbody.appendChild(tr);
+                    })
+
+                }
+            }
+        }
+        xhr.send();
+    }
+</script>
+</body>
+</html>

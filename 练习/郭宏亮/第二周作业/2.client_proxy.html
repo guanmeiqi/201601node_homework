@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+
+    <style>
+        .main {
+            margin: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<input type="button" class="btn" value="提交数据"/>
+
+<div class="main"></div>
+<script>
+    var btn = document.querySelector('input[type = "button"]');
+    var main = document.querySelector('.main');
+    var num = 100;
+    btn.onclick = function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/client');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var res = xhr.response;
+                console.log(res);
+                main.innerHTML = res;
+            }
+        };
+        xhr.send(JSON.stringify({name: 'ghl', age: ++num}));
+    }
+</script>
+
+</body>
+</html>

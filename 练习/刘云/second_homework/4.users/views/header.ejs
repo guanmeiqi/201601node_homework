@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+
+
+</head>
+<body>
+<ul class="nav nav-pills">
+    <li class="active"><a href="/" title="Home">Home</a></li>
+    <% if (user) { %>
+    <li><a href="/logout" title="Logout">Logout</a></li>
+    <% }else{ %>
+    <li><a href="/login" title="Login">Login</a></li>
+    <li><a href="/reg" title="Register">Rigester</a></li>
+    <% } %>
+</ul>
+
+<div class="reminder-info">
+    <% if (success) { %>
+    <p class="bg-success text-success"><%= success %> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></p>
+    <% } %>
+    <% if (error) { %>
+    <p class="bg-danger text-danger"><%= error %> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></p>
+    <% } %>
+</div>
+</body>
+</html>
+<script src="/javascripts/jquery.min.js"></script>
+<script>
+    var closeBtn = $('.reminder-info .close'),
+            reminderBox = $('.reminder-info');
+    if(closeBtn){
+        closeBtn.on('click', function(){
+            reminderBox.hide();
+        })
+    }
+
+
+
+
+
+
+</script>

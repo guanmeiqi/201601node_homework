@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title><%=title%></title>
+		<link rel="stylesheet" type="text/css" href="css/mkui-base.css"/>
+		<style type="text/css">
+			body{
+				margin-left: auto;
+				margin-right: auto;
+				max-width: 640px;
+			}
+			h1{
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+			button{
+				border: none;
+			}
+			ul{
+				margin-top: 10px;
+			}
+			a{
+				display: block;
+			}
+			input{
+				border: 1px solid #efefef;
+				height:40px;
+				padding: 4px 5px;
+				margin-left: 10px;
+				margin-right: 10px;
+				border-radius: 4px;
+				margin-bottom: 5px;
+				width: -webkit-calc(100% - 20px);
+			}
+			.add{
+				background: #0F9AE0;
+				display: block;
+				width: -webkit-calc(100% - 20px);
+				height: 40px;
+				border-radius: 4px;
+				color: #fff;
+				font-size: 16px;
+				margin-left:10px;
+				margin-right: 10px;
+			}
+			.add:hover{
+				background: #3BB4F2;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class="text-c">用户登录</h1>
+		<ul>
+			<li><input type="text" name="name" placeholder="请输入姓名"/></li>
+			<li><input type="text" name="password" placeholder="请输入密码"/></li>
+		</ul>
+		<button class="btn-add add btn-login ">登录</button>
+		<a href="reg.html" class="btn-show fr f-16 mr-10 btn-reg mt-10">注册</a>
+		<script src="./js/mkui.v0.2.js"></script>
+		<script src="./js/ajax.js"></script>
+		<script>
+
+			var login = {
+				//存发送数据
+				data:{},
+
+				//判断是否有值
+				isEmpty:function(val){
+					if(val){
+						return true;
+					}
+					return false;
+				},
+				//判断是否是数字
+				isAge:function(num){
+					if(num>0 && num<120){
+						return true;
+					}
+					return false;
+				},
+				//处理单击事件
+				addEvent:function(){
+					var that = this;
+					if(that.isEmpty(m('input[name=name]').val())){
+						that.data.name = m('input[name=name]').val();
+					}else{
+						m.ui.alert({"msg":"请输入姓名"});
+						return;
+					}
+					
+					if(that.isEmpty(m('input[name=password]').val())){
+						that.data.password = m('input[name=password]').val();
+					}else{
+						m.ui.alert({"msg":"请输入密码"});
+						return;
+					}
+
+					this.sendAjax(that.data);
+					
+				},
+				//发送ajax请求
+				sendAjax:function(){
+
+					var that = this;
+					ajax({
+						url:'./login.html',
+						type:"post",
+						data:that.data,
+						success:function(data){
+							var msg = JSON.parse(data);
+							console.log(data)
+							m.ui.alert({'msg':msg.msg});
+							m.cookie.delete('name');
+							m.cookie.set('name',that.data.name);
+							if(msg.msg == "恭喜你，登录成功"){
+								m('.btn-sure').click(function(){
+									window.location.href = "index.html";
+								})
+							}
+
+						}
+					})
+				},
+				//初始化
+				init:function(){
+					var that = this;
+
+
+					m('.btn-login').click(function(){
+						that.addEvent();
+					});
+					
+					m('.btn-reg').click(function(){
+						window.location.href="reg.html";
+					});
+				}
+			};
+	
+			login.init();
+			
+		</script>
+	</body>
+</html>

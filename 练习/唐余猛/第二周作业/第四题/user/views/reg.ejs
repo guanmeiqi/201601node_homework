@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<script>
+    function getCookie(){
+        var splits = document.cookie.split('=');
+        var cookie = null;
+        if (splits.length >= 2){
+            cookie = splits[1];
+        }
+        return cookie;
+    }
+    function loadCookie(){
+        var username = getCookie();
+        alert(username);
+    }
+</script>
+<!--onLoad="loadCookie()"-->
+<body>
+<form action='/reg' method='post'>
+    用户名 <input type='text' name='username'>
+    密码<input type='password' name='password' >
+    <input type='submit' value='用户注册'>
+</form>
+</body>
+</html>

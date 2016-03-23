@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery.js"></script>
+   <!-- <link href="abc.css" rel="stylesheet"/> -->
+</head>
+<style>
+    #tips {
+        height:30px;
+        color:red;
+    }
+</style>
+<body>
+    <h1>用户增删查改</h1>
+    <form>
+        <div id="tips"></div>
+        <input type="text" name="用户名" id="username"/>
+        <input type="text" name="密码" id="password"/>
+        <input type="button" value="注册" id="reg"/>
+        <input type="button" id="query" value="查询"/>
+        <input type="button" id="delete" value="删除"/>
+        <input type="button" id="modify" value="修改"/>
+    </form>
+    <div id="content">
+
+    </div>
+</body>
+<script>
+    function serialize(elements){
+        var data = [];
+        elements.forEach(function(){
+            data.push(elements[i].name +"="+elements[i].value)
+        });
+        return data.join("&");
+    }
+
+    function bindChange(){
+        $(":checkbox").each(function(i,e){
+            $(e).change(function(){
+                console.log($(this).prev().prop("disabled"));
+                if($(this).prev().prop("disabled")){
+                    $(this).prev().removeProp("disabled");
+                } else {
+                    $(this).prev().prop("disabled",true);
+                }
+
+            });
+        });
+    }
+
+    function getCheckedData(elements){
+        var users = [];
+        elements.each(function(i,e){
+            var obj = {};
+            obj.username = $(e).prev().prev().val();
+            obj.password = $(e).prev().val();
+            users.push(obj);
+        });
+        console.log(JSON.stringify(users));
+        return JSON.stringify(users);
+    }
+
+    window.onload = function(){
+
+
+
+
+        var tip = document.querySelector("#tips");
+        function query(){
+            document.querySelector("#content").innerHTML = "";
+            tip.innerHTML = "查询中...";
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET','/getData',true);
+            xhr.responseType = 'json';
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && /^2\d{2}$/.test(xhr.status)){
+                    var data = xhr.response;
+                    console.log(data);
+                    for(var i=0; i<data.length;i++){
+                        var p = document.createElement("p");
+                        p.innerHTML = "<input type='text' disabled value="+data[i].username+ ">"+ "<input type='text' disabled  value="+ data[i].password +">" +"<input type='checkbox' />";
+                        document.querySelector("#content").appendChild(p);
+                    }
+                    tip.innerHTML = "";
+                    bindChange();
+                }
+            }
+            xhr.send();
+        }
+        document.querySelector("#query").onclick = query;
+        document.querySelector("#reg").onclick = function(){
+            var username = document.querySelector("#username").value;
+            var password = document.querySelector("#password").value;
+            if(username == ""){
+                tip.innerHTML = "用户名不能为空";
+                return;
+            }
+            if(password == ""){
+                tip.innerHTML = "密码不能为空";
+                return;
+            }
+            tip.innerHTML = "注册中...";
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","/reg",true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && /2\d{2}/.test(xhr.status)){
+                    if(xhr.responseText == "success"){
+                        tip.innerHTML ="注册成功";
+                        setTimeout(function(){
+                            tip.innerHTML = "";
+                        },500);
+                    } else {
+                        tip.innerHTML = "注册失败";
+                    }
+                }
+            }
+
+            xhr.send("username="+username+"&password="+password);
+        }
+
+        document.querySelector("#delete").onclick = function(){
+            var names = [];
+            $("input:checked").each(function(i,e){
+                names.push($(e).prev().prev().val());
+            });
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","/delete",true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && /2\d{2}/.test(xhr.status)){
+                        query();
+                }
+            }
+
+            xhr.send(names.join("&"));
+        }
+
+        document.querySelector("#modify").onclick = function(){
+            var users = getCheckedData($(":checkbox:checked"));
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","/modify",true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && /2\d{2}/.test(xhr.status)){
+
+                }
+            };
+            xhr.send(users);
+        }
+    };
+</script>
+</html>

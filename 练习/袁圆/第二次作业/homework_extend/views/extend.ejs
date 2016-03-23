@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EJS EXTEND</title>
+    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.css" type="text/css" rel="stylesheet">
+    <style type="text/css">
+        body{background: #F3F3F3;}
+        .node{width: 600px;margin: 0 auto;padding-top: 50px;}
+        .list{text-align: center}
+    </style>
+</head>
+<body>
+<div class="node">
+    <table class="table table-condensed list">
+        <tbody>
+        <tr>
+            <td >用户名</td>
+            <td>密码</td>
+            <td>职业</td>
+            <td>id</td>
+            <td>功能</td>
+        </tr>
+        <% users.forEach(function(user){ %>
+        <tr>
+            <td><%= user.name %></td>
+            <td><%= user.password %></td>
+            <td><%= user.profession %></td>
+            <td><%= user.id %></td>
+            <td><button type="button" class="btn btn-warning col-sm-offset-1 remove" data="<%= user.id %>">Remove</button></td>
+        </tr>
+        <% }) %>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.0/jquery.js"></script>
+<script type="text/javascript" src="../public/js/work.js"></script>
+
+</body>
+</html>

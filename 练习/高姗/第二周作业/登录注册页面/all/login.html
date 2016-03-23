@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="all.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="error">sdasdsds</div>
+<div class="outer">
+    <div class="headphoto"><img src="head.jpg" class="auto"></div>
+    <p class="row row1"><label>用户名</label><input type="text" id="username"></p>
+    <p class="row"><label>密&nbsp;&nbsp;&nbsp;码</label><input type="password" id="password"></p>
+    <p class="bt">
+        <input type="button" value="登录" id="login" class="button1">
+        <input type="button" value="还没注册？" id="register" class="button2">
+    </p>
+    <!--<img src="1.png" class>-->
+</div>
+<img src="bg.jpg" class="bg">
+<script>
+    var login=document.querySelector('#login');
+    var register=document.querySelector('#register');
+    var username=document.querySelector('#username');
+    var password=document.querySelector('#password');
+    var bg=document.querySelector('.bg');
+    var error=document.querySelector('.error');
+    var auto=document.querySelector('.auto');
+    var message='';
+    login.addEventListener('click',function(){
+        message='';
+        var obj={}
+        obj.username=username.value;
+        obj.password=password.value;
+        var xhr=new XMLHttpRequest();
+        xhr.open('POST','/login',true);
+        xhr.setRequestHeader("content-type","application/json")
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4&&xhr.status==200){
+                message=xhr.response;
+            };
+        }
+        xhr.send(JSON.stringify(obj));
+        showErrow()
+    },false)
+    register.addEventListener('click',function(){
+        window.location.href='register.html';
+    })
+    bg.width=document.documentElement.clientWidth||document.body.clientWidth;
+    bg.height=document.documentElement.clientHeight||document.body.clientHeight;
+    window.onresize=function(){
+        bg.width=document.documentElement.clientWidth||document.body.clientWidth;
+        bg.height=document.documentElement.clientHeight||document.body.clientHeight;
+    }
+    function showErrow(){
+        var timer
+        var timer1=window.setTimeout(function(){
+            error.style.display='block';
+            error.innerHTML=message;
+            timer=window.setTimeout(function(){
+                error.style.display='none';
+                clearTimeout(timer);
+                timer=null
+            },2000);
+            clearTimeout(timer1);
+            timer1=null;
+        },500)
+    }
+</script>
+</body>
+</html>

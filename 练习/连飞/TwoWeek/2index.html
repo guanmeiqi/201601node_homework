@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    111
+
+    <script>
+        window.onload= function () {
+            var xhr=new XMLHttpRequest()
+            xhr.open("post","/reg",true);
+            xhr.responseType="json";
+            xhr.onreadystatechange= function () {
+                if(xhr.readyState==4 && xhr.status==200){
+                    console.log(xhr.response);
+                }
+            }
+            xhr.send(JSON.stringify({"name":"lianfei"}));
+        }
+
+
+    </script>
+
+</body>
+</html>

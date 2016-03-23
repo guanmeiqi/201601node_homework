@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>首页</title>
+
+</head>
+<body>
+<span>用户名 : <input id="name" name="username" type="text" size="20%"> </span>
+<span>密码 : <input id="password" name="password" type="password" size="20%"> </span>
+<input type="button" onclick="login()" value="登录">
+<input type="button" onclick="redirectToRegPage()" value="没有帐号？点这里注册" >
+</body>
+<script>
+    function redirectToRegPage(){
+        location.href = "/register"
+    }
+
+
+    function login() {
+
+        var username = document.querySelector("input[name='username']").value;
+        var password = document.querySelector("input[name='password']").value;
+        var user = {
+            username: username,
+            password: password
+        }
+        //1.创建ajax对象 0
+        var xhr = new XMLHttpRequest();
+        //指定参数 1
+        xhr.open('POST', '/login', true);
+        //设置响应的类型，会自动化xhr.response转成对应的类型
+        xhr.responseType = 'text';
+        //注册当状态变化之后的回调函数
+        xhr.onreadystatechange = function () {
+            //当状态为4的时候，也就是响应接收完毕的时候
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    if(xhr.responseText == "yes"){
+                        alert("登录成功，下面转向主页");
+                        location.href = "./welcome";
+                    }else if (xhr.responseText == "no"){
+                        alert("用户名或密码不正确，请重新输入！");
+                        return false;
+                    }
+
+                } else {
+                    alert("非法操作");
+                }
+            }
+        }
+        //指定请求体发送数据
+        xhr.send(JSON.stringify(user));
+    }
+</script>
+</html>
+

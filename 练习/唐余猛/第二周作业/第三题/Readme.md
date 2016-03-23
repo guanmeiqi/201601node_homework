@@ -1,0 +1,2 @@
+- 张老师，这道题server.js ,index.html 是修改为restful的效果
+- 有点疑惑的是，使用ajax post数据，express 接收数据，body-parser 解析不到req.body 。这个疑问周末上课请教你。

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+    <div>
+        <h1>test cross domain</h1>
+        <button id="jsonp" class="btn btn-info">test jsonp</button>
+        <button id="proxy" class="btn btn-warning">test proxy</button>
+    </div>
+    <h2>user list</h2>
+    <table id="content" class="table table-hover" style="margin-top:20px;">
+        <tr class="success">
+            <td>username</td>
+            <td>password</td>
+        </tr>
+    </table>
+    <h3 id="tips" style="color:red;"></h3>
+</body>
+<script type="application/javascript">
+    function getUsers(data){
+        $(".data").remove();
+        var users = JSON.parse(data);
+        users.forEach(function(e,i){
+            $("#content").append("<tr class='data info'><td>"+e.username + "</td><td>" + e.password+"</td></tr>");
+        })
+    }
+
+    $(function(){
+        $("#jsonp").click(function(){
+            //$("<script src='http://localhost:8080/getData?callback=getUsers'>").appendTo("body");
+            $.getScript("http://localhost:8080/getData?callback=getUsers",function(){
+                //$(".info").remove();
+                $("#tips").html("通过jsonp方式获取的数据");
+            })
+        })
+        $("#proxy").click(function(){
+            $.ajax({
+                url:'/proxy',
+                type:"POST",
+                dataType:"json",
+                success:function(data){
+                    $(".data").remove();
+                    data.forEach(function(e,i){
+                        $("#content").append("<tr class='data warning'><td>"+e.username + "</td><td>" + e.password+"</td></tr>")
+                    });
+                    $("#tips").html("通过代理方式获取的数据");
+                }
+            });
+        });
+    });
+</script>
+
+<!--<script src="http://localhost:8080/getData?callback=getUsers"></script>-->
+</html>

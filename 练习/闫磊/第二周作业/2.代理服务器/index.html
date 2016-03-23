@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+index.html<br />
+<input type='text' id='name'  placeholder="请输入内容">
+<input type="button" value="请求后台数据" onclick="getServerData()">
+<span id="reslutMsg"></span>
+<script type="text/javascript">
+    function getServerData(){
+        var data = document.querySelector('#name').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','/reg',true);
+        xhr.responseType = 'text';
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && /2\d{2}/.test(xhr.status)){
+                document.getElementById('reslutMsg').innerHTML=xhr.responseText;
+            }
+        }
+        xhr.send(data);
+    }
+</script>
+</body>
+</html>

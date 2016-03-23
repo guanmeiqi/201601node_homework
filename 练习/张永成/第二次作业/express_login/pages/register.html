@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  	<meta charset="UTF-8">
+  	<meta name="Generator" content="EditPlus®">
+  	<meta name="Author" content="">
+  	<meta name="Keywords" content="">
+  	<meta name="Description" content="">
+  	<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	 <link href="../css/common.css" rel="stylesheet" type="text/css">
+	 <script src="../js/jquery.js"></script>
+	 <script src="../js/bootstrap.min.js"></script>
+  <title>Document</title>
+ </head>
+
+ <body>
+	<header class="header"></header>
+	<section class="content">
+		<form id="myform" onsubmit="return false;">
+			<div id="user_tip" class="alert alert-danger fade in" role="alert" style="display: none">
+				<p>用户名不能为空！</p>
+			</div>
+			<input id="username" type="text" class="form-control" name="username" placeholder="请输入用户名"/>
+			<div id="pass_tip" class="alert alert-danger fade in" role="alert" style="display: none;margin-top:20px;">
+				<p>密码不能为空！</p>
+			</div>
+			<input id="password" type="text" class="form-control margin-top" name="password" placeholder="请输入密码"/>
+			<!--<input type="range" class="range" min="0" max="100" value="0"/>-->
+			<button class="btn mybtn margin-top" id="reg">注 册</button>
+			<p class="reg-tip"></p>
+		</form>
+	</section>
+ </body>
+ <script>
+	 $("#reg").click(function(){
+		 $("#user_tip,#pass_tip").hide();
+		 var username = $("#username").val().trim();
+		 var password = $("#password").val().trim();
+		 if(username === ""){
+			 $("#user_tip").show();
+			 return;
+		 }
+		 if(password === ""){
+			 $("#pass_tip").show();
+			 return;
+		 }
+
+		 $.ajax({
+			 url:"/reg",
+			 type:"POST",
+			 data:$("#myform").serialize(),
+			 success:function(data){
+				 if(data == "success"){
+					$(".reg-tip").html("注册成功，去<a href='login.html'>登录</a>");
+				 } else if(data == "failed"){
+
+				 }
+			 }
+		 });
+	 });
+ </script>
+</html>

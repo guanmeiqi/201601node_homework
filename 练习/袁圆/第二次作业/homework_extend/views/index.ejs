@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.css" type="text/css" rel="stylesheet">
+    <style>
+        body{background: #F3F3F3;}
+        .login{width:600px;margin:0 auto;padding-top:100px}
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h2 class="form-title">Login</h2>
+        <div class="form-group">
+            <input type="text" class="form-control"  placeholder="输入用户名进行登录" name="queryName">
+        </div>
+        <button type="submit" class="btn btn-default" onclick="land()">登录</button>
+        <a href="/reg"><button type="submit" class="btn btn-default">注册</button></a>
+    </div>
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.0/jquery.js"></script>
+    <script type="text/javascript" src="../public/js/work.js"></script>
+</body>
+</html>

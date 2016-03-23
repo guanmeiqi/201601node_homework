@@ -1,0 +1,6 @@
+html,body{background:#ffffff;}
+.container{margin-top:20px;width:900px;}
+.form-group{width:600px;}
+.btn-success{display:block;text-align:center;}
+.table{margin-top:20px;width:600px;text-align:center;font-size:18px;font-weight:700;}
+.table td{width:300px;}

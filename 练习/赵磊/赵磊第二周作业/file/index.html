@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<div class="container">
+    <form action="" role="form">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input class="form-control" type="text" name="username" id="username"/>
+        </div>
+        <div class="form-group">
+            <label for="age">年龄</label>
+            <input class="form-control" type="text" name="username" id="age"/>
+        </div>
+        <input type="button" id="btn" class="btn btn-success" value="提交"/>
+    </form>
+    <table id="table" class="table table-bordered table-hover">
+        <thead><tr><td>序号</td><td>用户名</td><td>年龄</td><td></td><td></td></tr></thead>
+        <tbody id="tBody"></tbody>
+    </table>
+</div>
+<script type="text/x-handlebars-template" id="user-template">
+    {{#each this}}
+    <tr><td>{{@index}}</td><td>{{username}}</td><td>{{age}}</td><td><input type="button" class="btn btn-info  modify-user" value="修改"/></td><td><input type="button" class="btn btn-danger delete-user" value="删除"/></td></tr>
+    {{/each}}
+</script>
+<script>
+
+    var User = {
+        flag:true,
+        init:function(){
+            $("#btn").off("click");
+            $('#btn').on("click",this.bindSubmitClick);
+
+        },
+        bindSubmitClick:function(){
+            var username = document.querySelector('#username').value,
+                    age = document.querySelector('#age').value,
+                    user = {username:username,age:age};
+                var xhr = new XMLHttpRequest();
+                xhr.open('post','/reg');
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState ==4 && xhr.status == 200){
+                        var data = JSON.parse(xhr.responseText);
+                        var myTemplate = Handlebars.compile($('#user-template').html());
+                        $('#tBody').html(myTemplate(data));
+
+                        bindClick();
+
+                    }
+                }
+                xhr.send(JSON.stringify(user));
+        },
+
+    }
+
+
+    function bindClick(){
+        $('.modify-user').each(function(index){
+            $(this).click(function(){
+                var selected = $('#tBody').find("tr").eq(index).find("td"),
+                        selectedName = selected.eq(1).html(),
+                        selectedAge  = selected.eq(2).html();
+
+                $("#username").val(selectedName);
+                $("#age").val(selectedAge);
+
+
+                var oldUser1 = {username:selectedName,age:selectedAge};
+               User.flag = false;
+                if(User.flag == false){
+                    $("#btn").off("click");
+                    $("#btn").on("click",putUser.bind(this,oldUser1));
+                }
+            })
+        });
+        $('.delete-user').each(function(index){
+            $(this).click(function(){
+                var selected = $('#tBody').find("tr").eq(index).find("td"),
+                        selectedName = selected.eq(1).html(),
+                        selectedAge  = selected.eq(2).html();
+
+                var oldUser2 = {username:selectedName,age:selectedAge};
+
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open('delete','/reg');
+                xhr2.onreadystatechange = function() {
+                    if (xhr2.readyState == 4 && xhr2.status == 200) {
+                        var data = JSON.parse(xhr2.responseText);
+                        var myTemplate = Handlebars.compile($('#user-template').html());
+                        $('#tBody').html(myTemplate(data));
+
+                        $("#btn").off("click");
+                        $("#btn").on("click",User.bindSubmitClick);
+                        bindClick();
+                        document.querySelector('#username').value = null;
+                        document.querySelector('#age').value = null;
+
+                    }
+                };
+                xhr2.send(JSON.stringify(oldUser2));
+
+            })
+
+        });
+
+    }
+
+
+    function putUser(oldUser1){
+            var  newName = document.querySelector('#username').value,
+                 newAge = document.querySelector('#age').value,
+                 newUser = {username:newName,age:newAge};
+            var arr=[];arr.push(oldUser1);arr.push(newUser);
+            var xhr1 = new XMLHttpRequest();
+            xhr1.open('put','/reg');
+            xhr1.onreadystatechange = function() {
+                if (xhr1.readyState == 4 && xhr1.status == 200) {
+                    var data = JSON.parse(xhr1.responseText);
+                    var myTemplate = Handlebars.compile($('#user-template').html());
+                    $('#tBody').html(myTemplate(data));
+
+                    document.querySelector('#username').value = null;
+                    document.querySelector('#age').value = null;
+
+                    $("#btn").off("click");
+                    bindClick();
+                    $("#btn").on("click",User.bindSubmitClick);
+
+
+                }
+            };
+            xhr1.send(JSON.stringify(arr));
+    }
+    User.init();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+.clear{*zoom:1;}
+.clear:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  overflow:hidden;
+  visibility: hidden;
+}
+.fl,.fc{
+  float:left;
+}
+.fr{
+  float:right;
+}
+.l,.c,.r{ float: left;}
+.r{ float: right;}
+
+.clearbox span{ padding: 0 5px; color: #337ab7; }
+.content{ width: 80%; margin-left: 10%; margin-right: 10%; }
+
+
+@media screen and (max-device-width: 600px) {
+
+  .content{ width: 100%;  margin: 0;}
+}

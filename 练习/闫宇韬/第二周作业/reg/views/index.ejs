@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title><%=title%></title>
+		<link rel="stylesheet" type="text/css" href="css/mkui-base.css"/>
+		<style type="text/css">
+			body{
+				margin-left: auto;
+				margin-right: auto;
+				max-width: 640px;
+			}
+			h1{
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+			p{
+				margin: 10px;
+				font-size: 16px;
+				color: #333;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class="text-c"></h1>
+		<p class="read none">Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。</p>
+		<script src="js/mkui.v0.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			if(m.cookie.get('name') == ''){
+				m('.text-c').html('登录后可以学习node教程');
+				m.ui.alert({"msg":"请登录"});
+				m('.btn-sure').click(function(){
+					window.location.href = 'login.html';
+				})
+			}else{
+				m('.text-c').html(m.cookie.get('name')+'您好！欢迎你来学习node.js');
+				m('.read').show();
+			}
+		</script>
+	</body>
+</html>

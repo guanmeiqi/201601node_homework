@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+
+<% if (content){%>
+        <h1><%= content %></h1>
+<% }%>
+
+
+<%
+if (username) {
+    document.cookie = 'username=' + username;
+}
+%>
+
+function setCookie(key,value){
+document.cookie = key+"="+value;
+}
+
+
+
+
+<form action='/login' method='post'>
+    用户名 <input type='text' name='username' value="<%=username%>">
+    密码<input type='password' name='password' >
+    <br/>
+    <input type='submit' value='用户登录'>
+</form>
+</body>
+</html>

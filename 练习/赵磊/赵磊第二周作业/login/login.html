@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+    <link rel="stylesheet" href="index.css"/>
+
+</head>
+<body>
+<div class="container">
+    <form class="form" action="" role="form">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input class="form-control" type="text" name="username" id="username"/>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input class="form-control" type="password" name="username" id="password"/>
+        </div>
+        <input type="button" id="btn" class="btn  btn-success " value="登录"/>
+    </form>
+</div>
+<script>
+    document.querySelector('#btn').onclick = function(){
+        var username =document.querySelector('#username').value,
+                password =document.querySelector('#password').value,
+                oldUser = {username:username,password:password};
+        var xhr = new XMLHttpRequest();
+        xhr.open('post','/log');
+        xhr.onreadystatechange = function(){
+            $('body').html(xhr.responseText);
+        }
+        xhr.send(JSON.stringify(oldUser));
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "mkui",
+  "version": "1.0.1",
+  "description": "mkui",
+  "main": "index.js",
+  "scripts": {
+    "test": "#"
+  },
+  "keywords": [
+    "mkui"
+  ],
+  "author": "mkui",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
