@@ -4,28 +4,33 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-        #list_left{float:left;width:48%;border:2px solid #003abf;padding:10px;}
-        .list_right{float:right;width:48%;border:2px solid #003abf;padding:10px;}
-        .button1{width:40px;height:40px;border-radius: 50%;}
-        .button2{width:40px;height:40px;border-radius: 50%;}
+        #list_left{float:left;width:48%;border:2px solid #003abf;padding:10px;border-radius: 10%;}
+        .list_right{float:right;width:48%;border:2px solid #003abf;padding:10px;border-radius:10%;}
+        #button1{width:40px;height:40px;border-radius: 50%;}
+        #button2{width:40px;height:40px;border-radius: 50%;}
+        .list_middle{float:left;width:48%;border:2px solid #003abf;}
+        .list_name{width: 100px;border-right: 2px solid #003abf}
+        .list_age{width: 100px;}
     </style>
 </head>
 <body>
 <div id="list_left">
     <h1>查询</h1>
     <p>查询用户信息</p>
-    <input type="button" value="查询" class="button1" onclick="que()"/>
+    <input type="button" value="查询" id="button1" onclick="que()"/>
 </div>
 <div class="list_right">
     <h1>增加</h1>
     <p>添加用户信息</p>
     <span>用户名</span><input type="text" name="username" placeholder="请输入用户名"/><br/>
     <span>年龄</span><input type="text" name="age" placeholder="请输入年龄信息"/><br/>
-    <input type="button" value="增加" class="button2" onclick="reg()"/>
-    <table>
+    <input type="button" value="增加" id="button2" onclick="reg()"/>
+</div>
+<div>
+    <table class="list_middle">
         <tr>
-            <td>用户名</td>
-            <td>年龄</td>
+            <td class="list_name">用户名</td>
+            <td class="list_age">年龄</td>
         </tr>
     </table>
 </div>
@@ -35,8 +40,8 @@ function que(){
     xhr.open('GET','/que',true);
     xhr.onreadystatechange=function(){
         if(xhr.readyState == 4) {
-            if (xhr.status == 200) {
-
+            if (xhr.status == 200){
+                var result=xhr.response;
             }
         }
     };
@@ -72,7 +77,6 @@ function reg(){
     };
     //指定请求体发送数据
     xhr.send(JSON.stringify(user));
-
 }
 </script>
 </body>

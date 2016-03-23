@@ -11,11 +11,12 @@ var server = http.createServer(function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
         fs.readFile('./ajax.html', function (err, data) {
             if (err) {
+                console.log('读取html失败');
             } else {
                 res.end(data);
             }
         });
-    } else if (urlObj.pathname == '/reg') {
+    } else if (urlObj.pathname == '/reg'){
         //每当服务器收到客户端发过来的一段数据的时候就会触发data事件
         var str = '';
         req.on('data', function (data) {
@@ -23,28 +24,25 @@ var server = http.createServer(function (req, res) {
         });
         //当所有的数据全部接收完毕的时候会会触发end事件，这时请求体的数据就接收完整了
         req.on('end', function () {
-            console.log(str);
             fs.writeFileSync('./data.txt', str, {flag: 'a'});
             //转成对象追加到用户列表里
             users.push(JSON.parse(str));
+            console.log(JSON.stringify(users));
             //最后返回用户列表
-            res.end(str);
+            res.end(JSON.stringify(users));
         })
 
-    } else if (urlObj.pathname == '/que') {
+    } else if (urlObj.pathname == '/que'){
         res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});
         fs.readFile('./data.txt', 'utf8', function (err, data) {
             if (err) {
-                console.log("xxx")
+                console.log("读取txt错误")
             } else {
-                var arr=data.toString()
+                var arr=data.toString();
                 console.log(arr);
-                //users.push(JSON.parse(data.toString()));
-
             }
-            res.end(data.toString());
+            res.end(arr);
         });
-
     }
 });
 server.listen(8888);
